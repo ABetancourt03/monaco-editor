@@ -1,0 +1,57 @@
+html {
+  box-sizing: border-box;
+}
+
+body {
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+#app {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  height: 100vh;
+  width: 100vw;
+}
+
+#html {
+  background: url('assets/html5.svg');
+  background-color: #222;
+  background-repeat: no-repeat;
+  background-position: calc(100% - 20px) calc(100% - 20px);
+  background-size: 48px 48px;
+}
+
+#css {
+  background: url('assets/css3.svg');
+  background-color: #222;
+  background-repeat: no-repeat;
+  background-position: calc(100% - 20px) calc(100% - 20px);
+  background-size: 48px 48px;
+}
+
+#js {
+  background: url('assets/js.svg');
+  background-color: #222;
+  background-repeat: no-repeat;
+  background-position: calc(100% - 20px) calc(100% - 20px);
+  background-size: 48px 48px;
+}
+
+textarea {
+  outline: none;
+  resize: none;
+  font-family: 'Cascadia Code';
+  font-size: 18px;
+  line-height: 1.5;
+  color: #fff;
+  background: #222;
+}
+
+iframe {
+  border: none;
+  height: 100%;
+  width: 100%;
+}
