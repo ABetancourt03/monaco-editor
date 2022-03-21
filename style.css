@@ -16,28 +16,31 @@ body {
   width: 100vw;
 }
 
-#html {
-  background: url('assets/html5.svg');
-  background-color: #222;
-  background-repeat: no-repeat;
-  background-position: calc(100% - 20px) calc(100% - 20px);
-  background-size: 48px 48px;
+.editor {
+  position: relative;
 }
 
-#css {
-  background: url('assets/css3.svg');
-  background-color: #222;
+.editor::after {
+  content: '';
+  position: absolute;
   background-repeat: no-repeat;
-  background-position: calc(100% - 20px) calc(100% - 20px);
-  background-size: 48px 48px;
+  right: 16px;
+  bottom: 16px;
+  width: 48px;
+  height: 48px;
+  z-index: 1;
 }
 
-#js {
-  background: url('assets/js.svg');
-  background-color: #222;
-  background-repeat: no-repeat;
-  background-position: calc(100% - 20px) calc(100% - 20px);
-  background-size: 48px 48px;
+#html::after {
+  background-image: url('assets/html5.svg');
+}
+
+#css::after {
+  background-image: url('assets/css3.svg');
+}
+
+#js::after {
+  background-image: url('assets/js.svg');
 }
 
 textarea {

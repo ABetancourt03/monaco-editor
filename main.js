@@ -1,5 +1,17 @@
 import './style.css'
 import { encode, decode } from 'js-base64'
+import * as monaco from 'monaco-editor'
+import HtmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'
+import CssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
+import JsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
+
+window.MonacoEnvironment = {
+  getWorker (_, label) {
+    if (label === 'html') return new HtmlWorker()
+    if (label === 'css') return new CssWorker()
+    if (label === 'typesctipt' || label === 'javascript') return new JsWorker()
+  }
+}
 
 const $ = selector => document.querySelector(selector)
 
@@ -7,31 +19,73 @@ const $html = $('#html')
 const $css = $('#css')
 const $js = $('#js')
 
-$html.addEventListener('input', update)
-$css.addEventListener('input', update)
-$js.addEventListener('input', update)
+const { pathname } = window.location
 
-function init () {
-  const { pathname } = window.location
+const [rawHtml, rawCss, rawJs] = pathname.slice(1).split('%7C')
 
-  const [rawHtml, rawCss, rawJs] = pathname.slice(1).split('%7C')
+const html = decode(rawHtml)
+const css = decode(rawCss)
+const js = decode(rawJs)
 
-  const html = decode(rawHtml)
-  const css = decode(rawCss)
-  const js = decode(rawJs)
+const htmlEditor = monaco.editor.create($html, {
+  value: html,
+  language: 'html',
+  theme: 'vs-dark',
+  minimap: {
+    enabled: false
+  },
+  fontSize: 18,
+  fontFamily: 'Cascadia Code',
+  fontLigatures: true,
+  wordWrap: 'on',
+  useTabStops: true,
+  tabCompletion: true,
+  tabSize: 2
+})
 
-  $html.value = html
-  $css.value = css
-  $js.value = js
+const cssEditor = monaco.editor.create($css, {
+  value: css,
+  language: 'css',
+  theme: 'vs-dark',
+  minimap: {
+    enabled: false
+  },
+  fontSize: 18,
+  fontFamily: 'Cascadia Code',
+  fontLigatures: true,
+  wordWrap: 'on',
+  useTabStops: true,
+  tabCompletion: true,
+  tabSize: 2
+})
 
-  const htmlPreview = createHtml({ html, css, js })
-  $('iframe').setAttribute('srcdoc', htmlPreview)
-}
+const jsEditor = monaco.editor.create($js, {
+  value: js,
+  language: 'javascript',
+  theme: 'vs-dark',
+  minimap: {
+    enabled: false
+  },
+  fontSize: 18,
+  fontFamily: 'Cascadia Code',
+  fontLigatures: true,
+  wordWrap: 'on',
+  useTabStops: true,
+  tabCompletion: true,
+  tabSize: 2
+})
+
+htmlEditor.onDidChangeModelContent(update)
+cssEditor.onDidChangeModelContent(update)
+jsEditor.onDidChangeModelContent(update)
+
+const htmlPreview = createHtml({ html, css, js })
+$('iframe').setAttribute('srcdoc', htmlPreview)
 
 function update () {
-  const html = $html.value
-  const css = $css.value
-  const js = $js.value
+  const html = htmlEditor.getValue()
+  const css = cssEditor.getValue()
+  const js = jsEditor.getValue()
 
   const hashedCode = `${encode(html)}|${encode(css)}|${encode(js)}`
 
@@ -61,5 +115,3 @@ function createHtml ({ html, css, js }) {
     </html>
   `
 }
-
-init()
