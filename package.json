@@ -7,16 +7,15 @@
     "build": "vite build",
     "preview": "vite preview"
   },
+  "dependencies": {
+    "js-base64": "3.7.2",
+    "monaco-editor": "0.33.0"
+  },
   "devDependencies": {
     "standard": "16.0.4",
     "vite": "2.8.0"
   },
   "eslintConfig": {
-    "extends": [
-      "./node_modules/standard/eslintrc.json"
-    ]
-  },
-  "dependencies": {
-    "js-base64": "3.7.2"
+    "extends": "standard"
   }
 }
