@@ -1,5 +1,5 @@
 import './style.css'
-import { encode, decode } from 'js-base64'
+// import { encode, decode } from 'js-base64'
 import * as monaco from 'monaco-editor'
 import HtmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'
 import CssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
@@ -19,13 +19,17 @@ const $html = $('#html')
 const $css = $('#css')
 const $js = $('#js')
 
-const { pathname } = window.location
+// const { pathname } = window.location
+//
+// const [rawHtml, rawCss, rawJs] = pathname.slice(1).split('%7C')
+//
+// const html = decode(rawHtml)
+// const css = decode(rawCss)
+// const js = decode(rawJs)
 
-const [rawHtml, rawCss, rawJs] = pathname.slice(1).split('%7C')
-
-const html = decode(rawHtml)
-const css = decode(rawCss)
-const js = decode(rawJs)
+const html = $html.value
+const css = $css.value
+const js = $js.value
 
 const htmlEditor = monaco.editor.create($html, {
   value: html,
@@ -87,9 +91,9 @@ function update () {
   const css = cssEditor.getValue()
   const js = jsEditor.getValue()
 
-  const hashedCode = `${encode(html)}|${encode(css)}|${encode(js)}`
+  // const hashedCode = `${encode(html)}|${encode(css)}|${encode(js)}`
 
-  window.history.replaceState(null, null, `/${hashedCode}`)
+  // window.history.replaceState(null, null, `/${hashedCode}`)
 
   const htmlPreview = createHtml({ html, css, js })
   $('iframe').setAttribute('srcdoc', htmlPreview)
