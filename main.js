@@ -36,7 +36,7 @@ const initialEditorState = {
   css: `html {
   box-sizing: border-box;
   font-family: 'Segoe UI';
-  font-size: 14px;
+  font-size: 24px;
 }
 
 body {
@@ -70,7 +70,7 @@ const CommonEditorSettings = {
   },
   theme: 'vs-dark',
   fontFamily: 'Consolas',
-  fontSize: 14,
+  fontSize: 18,
   fontLigatures: true,
   tabSize: 2,
   wordWrap: 'on',
