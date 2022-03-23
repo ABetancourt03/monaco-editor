@@ -5,6 +5,8 @@ import HtmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker'
 import CssWorker from 'monaco-editor/esm/vs/language/css/css.worker?worker'
 import JsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker'
 
+const $ = selector => document.querySelector(selector)
+
 window.MonacoEnvironment = {
   getWorker (_, label) {
     if (label === 'html') return new HtmlWorker()
@@ -13,11 +15,42 @@ window.MonacoEnvironment = {
   }
 }
 
-const $ = selector => document.querySelector(selector)
-
 const $html = $('#html')
 const $css = $('#css')
 const $js = $('#js')
+
+const initialEditorState = {
+  html: `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Online HTML, CSS and JS Editor</title>
+  </head>
+
+  <body>
+    <div id="app">
+      <h2>Edit HTML and CSS to see changes</h2>
+    </div>
+  </body>
+</html>`,
+  css: `html {
+  box-sizing: border-box;
+  font-family: 'Segoe UI';
+  font-size: 14px;
+}
+
+body {
+  box-sizing: inherit;
+  background-color: #222;
+  color: #fff;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}`,
+  js: `const $app = document.querySelector('#app')
+
+$app.innerHTML += '<h2>Edit JS to start hacking</h2>'`
+}
 
 // const { pathname } = window.location
 //
@@ -27,56 +60,40 @@ const $js = $('#js')
 // const css = decode(rawCss)
 // const js = decode(rawJs)
 
-const html = $html.value
-const css = $css.value
-const js = $js.value
+const html = initialEditorState.html
+const css = initialEditorState.css
+const js = initialEditorState.js
+
+const CommonEditorSettings = {
+  minimap: {
+    enabled: false
+  },
+  theme: 'vs-dark',
+  fontFamily: 'Consolas',
+  fontSize: 14,
+  fontLigatures: true,
+  tabSize: 2,
+  wordWrap: 'on',
+  useTabStops: true,
+  tabCompletion: true
+}
 
 const htmlEditor = monaco.editor.create($html, {
   value: html,
   language: 'html',
-  theme: 'vs-dark',
-  minimap: {
-    enabled: false
-  },
-  fontSize: 18,
-  fontFamily: 'Cascadia Code',
-  fontLigatures: true,
-  wordWrap: 'on',
-  useTabStops: true,
-  tabCompletion: true,
-  tabSize: 2
+  ...CommonEditorSettings
 })
 
 const cssEditor = monaco.editor.create($css, {
   value: css,
   language: 'css',
-  theme: 'vs-dark',
-  minimap: {
-    enabled: false
-  },
-  fontSize: 18,
-  fontFamily: 'Cascadia Code',
-  fontLigatures: true,
-  wordWrap: 'on',
-  useTabStops: true,
-  tabCompletion: true,
-  tabSize: 2
+  ...CommonEditorSettings
 })
 
 const jsEditor = monaco.editor.create($js, {
   value: js,
   language: 'javascript',
-  theme: 'vs-dark',
-  minimap: {
-    enabled: false
-  },
-  fontSize: 18,
-  fontFamily: 'Cascadia Code',
-  fontLigatures: true,
-  wordWrap: 'on',
-  useTabStops: true,
-  tabCompletion: true,
-  tabSize: 2
+  ...CommonEditorSettings
 })
 
 htmlEditor.onDidChangeModelContent(update)
